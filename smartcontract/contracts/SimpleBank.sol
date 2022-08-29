@@ -25,19 +25,19 @@ contract SimpleBank {
         
         uint256 bal  = balances[msg.sender];
 
-        (bool sent, bytes calldata data) = msg.sender.call{value: bal}("");
+        (bool sent, bytes memory data) = msg.sender.call{value: bal}("");
 
-        require(sent, "Failed to send Ether")
+        require(sent, "Failed to send Ether");
         
         return balances[msg.sender];
     }
 
-    function withdraw(uint256 amount) returns (uint256 remainingBal){
+    function withdraw(uint256 amount) public returns (uint256 remainingBal){
 
         require(balances[msg.sender] >= amount);
 
-        bool sent, bytes calldata data) = msg.sender.call{value: amount}("");
-        require(sent, "Failed to send Ether")
+        (bool sent, bytes memory data) = msg.sender.call{value: amount}("");
+        require(sent, "Failed to send Ether");
         return balances[msg.sender];
     }
 
@@ -47,7 +47,7 @@ contract SimpleBank {
 
 
     function calculateInterest(address user, uint256 _rate) private view returns(uint256) {
-        uint256 interest = balances[user].mul(_rate).div(100);
+        uint256 interest = (balances[user] / _rate) * (100);
         return interest;
     }
     
