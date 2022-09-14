@@ -4,12 +4,16 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { Web3Provider } from 'src/contexts/web3.context';
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <Web3Provider>
+      <App />
+    </Web3Provider>
   </React.StrictMode>
 );
 
