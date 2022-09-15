@@ -1,29 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Fragment } from 'react';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import Layout from "src/components/Layout";
+import HomePage from "src/pages/Home";
+import NotFound from "src/pages/NotFound";
+import BankPage from "src/pages/Bank";
+import TokenPage from "src/pages/Token";
+import NFTPage from "src/pages/NFT";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <h1 className="text-3xl font-bold underline">
-          Hello world!
-        </h1>
-      </header>
-    </div>
+    <Fragment>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route index element={<HomePage />} />
+            <Route path="/bank" element={<BankPage />} />
+            <Route path="/token" element={<TokenPage />} />
+            <Route path="/nft" element={<NFTPage />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </Fragment>
   );
-}
+};
 
 export default App;
