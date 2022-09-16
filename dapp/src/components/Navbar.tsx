@@ -1,6 +1,7 @@
 import { FC, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Web3Context } from "src/contexts/web3.context";
+import MyButton from "src/components/MyButton";
 
 const navData = [
   {
@@ -17,6 +18,7 @@ const navData = [
   }
 ];
 
+// #1 Connect wallet button
 const ConnectButton = () => {
   const { walletAddress, handleConnectWallet } = useContext(Web3Context);
   if (walletAddress) {
@@ -27,14 +29,7 @@ const ConnectButton = () => {
     );
   }
   return (
-    <button
-      id="connectButton"
-      type="button"
-      className="px-8 py-2 bg-blue-400 text-xl rounded"
-      onClick={() => handleConnectWallet()}
-    >
-      Connect Wallet
-    </button>
+    <MyButton id="connectButton" name="connectButton" className="px-8 py-2" text="CONNECT WALLET" onClick={handleConnectWallet} />
   );
 };
 
@@ -66,6 +61,7 @@ const MyNavbar: FC = () => {
         </div>
       </Link>
       <NavMenu />
+      {/* #2 uncomment ConnectButton */}
       <ConnectButton />
     </nav>
   );
