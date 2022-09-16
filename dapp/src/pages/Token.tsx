@@ -3,10 +3,12 @@ import { ethers } from "ethers";
 
 import { Web3Context } from "src/contexts/web3.context";
 import { TOKEN_ADDRESS, TOKEN_ABI } from "src/utils/constants";
+import MyButton from "src/components/MyButton";
 
 const { ethereum } = window;
 
 const Token: FC = () => {
+  // #1
   const { walletAddress, walletBalance, getWalletBalance } = useContext(Web3Context);
   const [balance, setBalance] = useState("");
   const [allowance, setAllowance] = useState("");
@@ -22,6 +24,7 @@ const Token: FC = () => {
     return tokenContract;
   };
 
+  // #2
   const getSymbol = async () => {
     const contract = initContract();
     const result = await contract.symbol();
@@ -42,6 +45,7 @@ const Token: FC = () => {
     setAllowance(ethers.utils.formatUnits(result));
   };
 
+  // #3
   const handleApprove = async () => {
     try {
       const approveValue = ethers.utils.parseEther(deposit);
@@ -54,6 +58,7 @@ const Token: FC = () => {
     }
   };
 
+  // #4
   const handleDeposit = async (): Promise<void> => {
     try {
       const tx = {
@@ -67,6 +72,8 @@ const Token: FC = () => {
     }
   };
 
+  // #5 approve b4 deposit
+  // show case hack?
   const depositService = async () => {
     if (parseFloat(deposit) > parseFloat(allowance)) {
       // ask for approve
@@ -77,8 +84,11 @@ const Token: FC = () => {
     } else {
       await handleDeposit();
     }
+    // case hack
+    // handleDeposit();
   };
 
+  // #6
   const handleWithdraw = async (): Promise<void> => {
     try {
       const amount = ethers.utils.parseEther(withdraw);
@@ -86,10 +96,11 @@ const Token: FC = () => {
       const result = await contract.withdraw(amount);
       // console.log('withdraw', result);
     } catch (error) {
-      console.log(error);
+      console.log('handleWithdraw error', error);
     }
   };
 
+  // #2
   const handleRefresh = async () => {
     await Promise.all([
       getBalance(),
@@ -98,6 +109,7 @@ const Token: FC = () => {
     ]);
   };
 
+  // #2
   useEffect(() => {
     const init = async () => {
       if (walletAddress) {
@@ -113,13 +125,26 @@ const Token: FC = () => {
 
   return (
     <div className="h-[90vh] p-4 text-center bg-slate-700">
-      <div className="w-10/12 md:w-6/12 mx-auto my-4 p-4 border border-white bg-gray-100">
+
+      {/* #2 */}
+      <div className="w-10/12 md:w-9/12 mx-auto my-4 p-4 border border-white bg-gray-100 text-2xl">
         <div>
           address : {`${walletAddress || `...`}`}
         </div>
         <div>
           wallet balance : {`${walletBalance || 0} ETH`}
         </div>
+        <div>
+          allowance : {`${allowance || 0} ETH`}
+        </div>
+        <div>
+          token balance : {`${balance || 0} ${symbol}`}
+        </div>
+        <MyButton id="updateBalanceButton" name="updateBalanceButton" className="mt-4" text="REFRESH" onClick={handleRefresh} />
+      </div>
+
+      {/* #5 */}
+      <div className="w-10/12 md:w-6/12 mx-auto my-4 p-4 border border-white bg-gray-100">
         <div>
           <input
             name="deposit"
@@ -129,24 +154,12 @@ const Token: FC = () => {
             placeholder="input deposit"
             onChange={e => setDeposit(e.target.value)}
           />
-          <button
-            id="depositButton"
-            className="mx-2 px-4 py-2 bg-blue-400 text-lg"
-            disabled={!deposit}
-            onClick={() => depositService()}
-          >
-            DEPOSIT
-          </button>
+          <MyButton id="depositButton" name="depositButton" className="mx-2" text="DEPOSIT" onClick={depositService} />
         </div>
       </div>
 
+      {/* #6 */}
       <div className="w-10/12 md:w-6/12 mx-auto my-4 p-4 border border-white bg-gray-100">
-        <div>
-          allowance : {`${allowance || 0} ETH`}
-        </div>
-        <div>
-          Token balance : {`${balance || 0} ${symbol}`}
-        </div>
         <div>
           <input
             name="withdraw"
@@ -156,24 +169,8 @@ const Token: FC = () => {
             placeholder="input withdraw"
             onChange={e => setWithdraw(e.target.value)}
           />
-          <button
-            id="withdrawButton"
-            className="mx-2 px-4 py-2 bg-blue-400 text-lg"
-            onClick={() => handleWithdraw()}
-          >
-            WITHDRAW
-          </button>
+          <MyButton id="withdrawButton" name="withdrawButton" className="mx-2" text="WITHDRAW" onClick={handleWithdraw} />
         </div>
-      </div>
-
-      <div className="w-10/12 md:w-6/12 mx-auto my-4 p-4 border border-white bg-gray-100">
-        <button
-          id="updateBalanceButton"
-          className="mx-2 px-4 py-2 bg-blue-400 text-lg"
-          onClick={() => handleRefresh()}
-        >
-          Refresh
-        </button>
       </div>
 
     </div>
