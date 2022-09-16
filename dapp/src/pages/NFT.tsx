@@ -3,6 +3,7 @@ import { ethers } from "ethers";
 import dayjs from "dayjs";
 
 import { Web3Context } from "src/contexts/web3.context";
+import MyButton from "src/components/MyButton";
 import NftImage from "src/components/NftImage";
 import { NFT_ADDRESS, NFT_ABI } from "src/utils/constants";
 
@@ -18,6 +19,7 @@ interface NftImageInterface {
 const { ethereum } = window;
 
 const NFT: FC = () => {
+  // #1
   const { walletAddress, walletBalance, getWalletBalance } = useContext(Web3Context);
   const [cost, setCost] = useState("");
   const [mintQty, setMintQty] = useState("");
@@ -26,6 +28,7 @@ const NFT: FC = () => {
   const [maxSupply, setMaxSupply] = useState("");
   const [nftList, setNftList] = useState<NftImageInterface[]>([]);
 
+  // #1
   const initContract = () => {
     const provider = new ethers.providers.Web3Provider(ethereum);
     const signer = provider.getSigner();
@@ -33,6 +36,14 @@ const NFT: FC = () => {
     return nftContract;
   };
 
+  // #2
+  /* 
+    Ask about ipfs 
+    We could use IPFS, a decentralized protocol and peer-to-peer network 
+    for storing and sharing data in a distributed file system. 
+    As this protocol is DECENTRALIZED and FREE, it is our best option!
+    ref : alchemy doc
+  */
   const getCost = async () => {
     const contract = initContract();
     const result = await contract.cost();
@@ -110,6 +121,8 @@ const NFT: FC = () => {
   };
   // end nft section
 
+  // #4 function mint nft
+  // show hack
   const handleMint = async () => {
     if (parseInt(mintQty) > parseInt(maxMintQty)) {
       alert(`Max mint per mint is ${maxMintQty}`);
@@ -122,8 +135,12 @@ const NFT: FC = () => {
     const contract = initContract();
     const result = await contract.mint(mintQty, tx);
     console.log('handleMint', result);
+    // case hack
+    // const contract = initContract();
+    // const result = await contract.mint(mintQty);
   };
 
+  // #3 
   const handleRefresh = async () => {
     await Promise.all([
       getWalletBalance(),
@@ -132,6 +149,7 @@ const NFT: FC = () => {
     ]);
   };
 
+  // #2
   useEffect(() => {
     const init = async () => {
       if (walletAddress) {
@@ -150,7 +168,8 @@ const NFT: FC = () => {
   return (
     <div className="h-full p-4 text-center bg-slate-700">
 
-      <div className="w-10/12 md:w-6/12 mx-auto my-4 p-4 border border-white bg-gray-100">
+      {/* #3 */}
+      <div className="w-10/12 md:w-9/12 mx-auto my-4 p-4 border border-white bg-gray-100 text-2xl">
         <div>
           address : {`${walletAddress || `...`}`}
         </div>
@@ -163,41 +182,31 @@ const NFT: FC = () => {
         <div>
           Minted NFT {`${totalSupply} / ${maxSupply}`}
         </div>
-        <button
-          id="refreshButton"
-          className="mx-2 px-4 py-2 bg-blue-400 text-lg"
-          onClick={() => handleRefresh()}
-        >
-          Refresh
-        </button>
+        <MyButton id="refreshButton" name="refreshButton" className="mt-4" text="REFRESH" onClick={handleRefresh} />
       </div>
 
-      <div className="w-10/12 md:w-6/12 mx-auto my-4 p-4 border border-white bg-gray-100">
+      {/* #4 */}
+      <div className="w-10/12 md:w-9/12 mx-auto my-4 p-4 border border-white bg-gray-100 text-2xl">
         <div>
           Max mint {`${maxMintQty}`}
         </div>
         <input
           name="mintQty"
-          className="w-6/12 p-2 outline-none border text-lg white-glassmorphism rounded-sm"
+          className="w-6/12 mt-4 p-2 outline-none border text-lg white-glassmorphism rounded-sm"
           type="number"
           value={mintQty}
           placeholder="input mint quantity"
           onChange={e => setMintQty(e.target.value)}
         />
-        <button
-          id="mintButton"
-          className="mx-2 px-4 py-2 bg-blue-400 text-lg"
-          onClick={() => handleMint()}
-        >
-          MINT
-        </button>
+        <MyButton id="mintButton" name="mintButton" className="mx-2" text="MINT" onClick={handleMint} />
       </div>
 
-      <div className="w-10/12 md:w-6/12 mx-auto my-4 p-4 border border-white bg-gray-100">
+      {/* #3 */}
+      <div className="w-10/12 md:w-9/12 mx-auto my-4 p-4 border border-white bg-gray-100 text-2xl">
         <div>
           NFT image
         </div>
-        <div className="grid grid-cols-4 gap-4">
+        <div className="mt-4 grid grid-cols-4 gap-4 justify-items-center content-around">
           {nftList.map((nft) => (
             <NftImage
               key={nft.name}
