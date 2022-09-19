@@ -144,7 +144,7 @@ const Token: FC = () => {
       </div>
 
       {/* #5 */}
-      <div className="w-10/12 md:w-6/12 mx-auto my-4 p-4 border border-white bg-gray-100">
+      <div className="w-10/12 md:w-9/12 mx-auto my-4 p-4 border border-white bg-gray-100">
         <div>
           <input
             name="deposit"
@@ -159,7 +159,7 @@ const Token: FC = () => {
       </div>
 
       {/* #6 */}
-      <div className="w-10/12 md:w-6/12 mx-auto my-4 p-4 border border-white bg-gray-100">
+      <div className="w-10/12 md:w-9/12 mx-auto my-4 p-4 border border-white bg-gray-100">
         <div>
           <input
             name="withdraw"
