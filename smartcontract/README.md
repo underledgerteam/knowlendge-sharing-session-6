@@ -49,6 +49,14 @@ npx hardhat compile
 npx hardhat node
 ```
 
+deploy to local
+
 ```shell
-npx hardhat run --network localhost scripts/deploy.js
+npx hardhat run scripts/deploy.js --network localhost
+```
+
+deploy to testnet
+
+```shell
+npx hardhat run scripts/deploy.js --network goerli
 ```
