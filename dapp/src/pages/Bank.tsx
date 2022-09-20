@@ -103,16 +103,6 @@ const Bank: FC = () => {
   //   init();
   // }, [walletAddress]);
 
-  // if (!walletAddress) {
-  //   return (
-  //     <div className="h-[90vh] p-4 text-center bg-slate-700">
-  //       <div className="w-10/12 md:w-9/12 mx-auto my-4 p-4 border border-white bg-gray-100 text-2xl">
-  //         Please connect wallet
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
   return (
     <div className="h-[90vh] p-4 text-center bg-slate-700">
 
