@@ -1,5 +1,6 @@
 import { useState, useEffect, createContext } from 'react';
 import { ethers } from "ethers";
+import { GOERLI_CHAIN_ID } from 'src/utils/constants';
 
 interface ProviderInterface {
   children: JSX.Element;
@@ -8,6 +9,7 @@ interface ProviderInterface {
 export interface Web3ContextInterface {
   walletAddress: string;
   walletBalance: string;
+  supportChain: boolean;
   handleConnectWallet: Function;
   getWalletBalance: Function;
 }
@@ -15,6 +17,7 @@ export interface Web3ContextInterface {
 const defaultValue: Web3ContextInterface = {
   walletAddress: "",
   walletBalance: "",
+  supportChain: false,
   handleConnectWallet: () => { },
   getWalletBalance: () => { },
 };
@@ -24,9 +27,9 @@ const { ethereum } = window;
 export const Web3Context = createContext<Web3ContextInterface>(defaultValue);
 
 export const Web3Provider = ({ children }: ProviderInterface) => {
-  let isChainChange = false;
   const [walletAddress, setWalletAddress] = useState("");
   const [walletBalance, setWalletBalance] = useState("");
+  const [supportChain, setSupportChain] = useState(false);
 
   // check browser have wallet extension
   const checkWalletIsConnected = async (): Promise<void> => {
@@ -41,9 +44,19 @@ export const Web3Provider = ({ children }: ProviderInterface) => {
       const address = await signer.getAddress();
       setWalletAddress(address);
     } catch (e) {
-      console.log(e);
+      console.log('checkWalletIsConnected', e);
     }
   };
+
+  const checkIsSupportedChain = async (): Promise<void> => {
+    try {
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const { chainId } = await provider.getNetwork();
+      setSupportChain(GOERLI_CHAIN_ID === chainId)
+    } catch (e) {
+      console.log('checkIsSupportedChain', e);
+    }
+  }
 
   // get wallet balance
   const getWalletBalance = async (): Promise<void> => {
@@ -70,10 +83,8 @@ export const Web3Provider = ({ children }: ProviderInterface) => {
       window.location.reload();
     }
   };
-  const handleChainChange = (): void => {
-    // window.location.reload();
-    // todo: list support chain ถ้าจะเทสเรื่องนี้
-    isChainChange = !isChainChange;
+  const handleChainChange = async (): Promise<void> => {
+    await checkIsSupportedChain();
   };
 
   useEffect(() => {
@@ -86,7 +97,7 @@ export const Web3Provider = ({ children }: ProviderInterface) => {
 
       if (walletAddress) {
         await getWalletBalance();
-        // await getBalance();
+        await checkIsSupportedChain();
       }
     };
     init();
@@ -102,6 +113,7 @@ export const Web3Provider = ({ children }: ProviderInterface) => {
       value={{
         walletAddress,
         walletBalance,
+        supportChain,
         handleConnectWallet,
         getWalletBalance
       }}

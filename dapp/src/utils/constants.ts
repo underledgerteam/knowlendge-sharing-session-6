@@ -10,3 +10,5 @@ export const TOKEN_ABI: Object[] = merc20Abi;
 
 export const NFT_ADDRESS: string = process.env.REACT_APP_NFT_ADDRESS || "";
 export const NFT_ABI: Object[] = merc721Abi;
+
+export const GOERLI_CHAIN_ID: number = 5;
