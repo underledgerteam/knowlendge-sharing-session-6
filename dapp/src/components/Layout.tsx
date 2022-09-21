@@ -1,13 +1,15 @@
 import { FC, useContext } from 'react';
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { Web3Context } from "src/contexts/web3.context";
 import Navbar from 'src/components/Navbar';
 
 const Layout: FC = () => {
+  const { pathname } = useLocation();
   const { walletAddress, supportChain } = useContext(Web3Context);
 
   const Content = () => {
-    if (!walletAddress) {
+    const isHome = pathname === '/';
+    if (!walletAddress && !isHome) {
       return (
         <div className="h-[90vh] p-4 text-center bg-slate-700">
           <div className="w-10/12 md:w-9/12 mx-auto my-4 p-4 border border-white bg-gray-100 text-2xl">
@@ -16,7 +18,7 @@ const Layout: FC = () => {
         </div>
       );
     }
-    if (!supportChain) {
+    if (!supportChain && !isHome) {
       return (
         <div className="h-[90vh] p-4 text-center bg-slate-700">
           <div className="w-10/12 md:w-9/12 mx-auto my-4 p-4 border border-white bg-gray-100 text-2xl">

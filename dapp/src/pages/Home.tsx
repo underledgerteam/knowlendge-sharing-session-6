@@ -3,10 +3,10 @@ import { SIMPLE_BANK_ADRESS, TOKEN_ADDRESS, NFT_ADDRESS } from "src/utils/consta
 
 const Home: FC = () => {
   return (
-    <div className="h-full p-4 text-center bg-slate-700 text-2xl text-white">
+    <div className="h-full p-10 bg-slate-700 text-2xl text-white">
 
-      <div className="">
-        Workshop Repo :
+      <div className="p-2">
+        <p>Workshop repo</p>
         <a
           className="underline"
           href="https://github.com/underledgerteam/knowlendge-sharing-session-6"
@@ -17,20 +17,8 @@ const Home: FC = () => {
         </a>
       </div>
 
-      <div>
-        Completed Repo :
-        <a
-          className="underline"
-          href="https://github.com/underledgerteam/knowlendge-sharing-session-6"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          https://github.com/underledgerteam/knowlendge-sharing-session-6
-        </a>
-      </div>
-
-      <div className="">
-        ETH Faucet :
+      <div className="p-2">
+        <p>GoerliETH Faucet</p>
         <a
           className="underline"
           href="https://goerlifaucet.com/"
@@ -41,8 +29,8 @@ const Home: FC = () => {
         </a>
       </div>
 
-      <div className="">
-        Bank Contract :
+      <div className="p-2">
+        <p>Bank Contract</p>
         <a
           className="underline"
           href={`https://goerli.etherscan.io/address/${SIMPLE_BANK_ADRESS}`}
@@ -53,8 +41,8 @@ const Home: FC = () => {
         </a>
       </div>
 
-      <div className="">
-        Token Contract :
+      <div className="p-2">
+        <p>Token Contract</p>
         <a
           className="underline"
           href={`https://goerli.etherscan.io/address/${TOKEN_ADDRESS}`}
@@ -65,8 +53,8 @@ const Home: FC = () => {
         </a>
       </div>
 
-      <div className="">
-        NFT Contract :
+      <div className="p-2">
+        <p>NFT Contract</p>
         <a
           className="underline"
           href={`https://goerli.etherscan.io/address/${NFT_ADDRESS}`}
@@ -75,32 +63,6 @@ const Home: FC = () => {
         >
           {`https://goerli.etherscan.io/address/${NFT_ADDRESS}`}
         </a>
-      </div>
-
-      <div>
-        tool
-      </div>
-      <ul>
-        <li>git</li>
-        <li>ide</li>
-        <li>npm</li>
-      </ul>
-
-      <div>
-        page
-      </div>
-      <div>
-        1 simple contract interaction
-      </div>
-      <div>
-        2 simple mint token and displa token
-      </div>
-      <div>
-        3 simple mint nft and display nft
-      </div>
-
-      <div>
-        รู้ว่าจะทำอะไร , รู้ chain , address อะไร
       </div>
 
     </div>
