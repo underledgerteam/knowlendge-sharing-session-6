@@ -19,19 +19,19 @@ const navData = [
 ];
 
 // #1 Connect wallet button
-const ConnectButton = () => {
-  const { walletAddress, handleConnectWallet } = useContext(Web3Context);
-  if (walletAddress) {
-    return (
-      <div className="text-2xl text-white font-bold">
-        Connected
-      </div>
-    );
-  }
-  return (
-    <MyButton id="connectButton" name="connectButton" className="px-8 py-2" text="CONNECT WALLET" onClick={handleConnectWallet} />
-  );
-};
+// const ConnectButton = () => {
+//   const { walletAddress, handleConnectWallet } = useContext(Web3Context);
+//   if (walletAddress) {
+//     return (
+//       <div className="text-2xl text-white font-bold">
+//         Connected
+//       </div>
+//     );
+//   }
+//   return (
+//     <MyButton id="connectButton" name="connectButton" className="px-8 py-2" text="CONNECT WALLET" onClick={handleConnectWallet} />
+//   );
+// };
 
 const NavMenu = () => {
   const { pathname } = useLocation();
@@ -62,7 +62,7 @@ const MyNavbar: FC = () => {
       </Link>
       <NavMenu />
       {/* #2 uncomment ConnectButton */}
-      <ConnectButton />
+      {/* <ConnectButton /> */}
     </nav>
   );
 };

@@ -36,7 +36,7 @@ const NFT: FC = () => {
     return nftContract;
   };
 
-  // #2
+  // #2 
   /* 
     Ask about ipfs 
     We could use IPFS, a decentralized protocol and peer-to-peer network 
@@ -69,6 +69,12 @@ const NFT: FC = () => {
     setMaxSupply(ethers.utils.formatUnits(result, 'wei'));
   };
   // start nft section
+  const getNftListByAddress = async () => {
+    const contract = initContract();
+    const nftIdArray = await contract.walletOfOwner(walletAddress);
+    // console.log('getNftListByAddress', nftIdArray);
+    return nftIdArray;
+  };
   const getTokenUri = async (tokenId: number) => {
     const contract = initContract();
     const tokenUri = await contract.tokenURI(tokenId);
@@ -84,12 +90,6 @@ const NFT: FC = () => {
       date: dayjs(nftMetaData.date).format("DD/MM/YYYY"),
     };
   };
-  const getNftListByAddress = async () => {
-    const contract = initContract();
-    const nftIdArray = await contract.walletOfOwner(walletAddress);
-    // console.log('getNftListByAddress', nftIdArray);
-    return nftIdArray;
-  };
   const replaceUriToHttps = (uri: string) => {
     return uri.replace('ipfs://', 'https://ipfs.io/ipfs/');
   };
@@ -99,15 +99,14 @@ const NFT: FC = () => {
 
     // 1st get all nft id
     const nftIdArray = await getNftListByAddress();
-
-    // 2nd
-    // prepare id for using getTokenUri()
+    console.log('nftIdArray', nftIdArray);
+    // 2nd prepare id for using getTokenUri()
     for (let id of nftIdArray) {
       tokenUriPromises.push(getTokenUri(id));
     }
     // parallel get all token uri 
     const tokenUriArray = await Promise.all(tokenUriPromises);
-    // console.log('tokenUriArray', tokenUriArray);
+    console.log('tokenUriArray', tokenUriArray);
 
     // 3rd
     // prepare data for using getNftMetaData()
@@ -119,7 +118,6 @@ const NFT: FC = () => {
     console.log('tokenMetaDataArray', tokenMetaDataArray);
     setNftList(tokenMetaDataArray);
   };
-  // end nft section
 
   // #4 function mint nft
   // show hack
@@ -168,13 +166,14 @@ const NFT: FC = () => {
   return (
     <div className="h-full p-4 text-center bg-slate-700">
 
-      {/* #3 */}
       <div className="w-10/12 md:w-9/12 mx-auto my-4 p-4 border border-white bg-gray-100 text-2xl">
-        <div>
+        <p className="text-2xl">info</p>
+        {/* #3 */}
+        <div className="break-all">
           address : {`${walletAddress || `...`}`}
         </div>
-        <div>
-          wallet balance : {`${walletBalance || 0} ETH`}
+        <div className="break-all">
+          wallet balance : {`${walletBalance || `...`} ETH`}
         </div>
         <div>
           Cost {`${cost}`}
@@ -185,8 +184,11 @@ const NFT: FC = () => {
         <MyButton id="refreshButton" name="refreshButton" className="mt-4" text="REFRESH" onClick={handleRefresh} />
       </div>
 
-      {/* #4 */}
       <div className="w-10/12 md:w-9/12 mx-auto my-4 p-4 border border-white bg-gray-100 text-2xl">
+        <div>
+          Mint NFT
+        </div>
+        {/* #4 */}
         <div>
           Max mint {`${maxMintQty}`}
         </div>
@@ -201,11 +203,11 @@ const NFT: FC = () => {
         <MyButton id="mintButton" name="mintButton" className="mx-2" text="MINT" onClick={handleMint} />
       </div>
 
-      {/* #3 */}
       <div className="w-10/12 md:w-9/12 mx-auto my-4 p-4 border border-white bg-gray-100 text-2xl">
         <div>
           NFT image
         </div>
+        {/* #3 */}
         <div className="mt-4 grid grid-cols-4 gap-4 justify-items-center content-around">
           {nftList.map((nft) => (
             <NftImage

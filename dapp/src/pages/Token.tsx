@@ -11,7 +11,6 @@ const Token: FC = () => {
   // #1
   const { walletAddress, walletBalance, getWalletBalance } = useContext(Web3Context);
   const [balance, setBalance] = useState("");
-  const [allowance, setAllowance] = useState("");
   const [symbol, setSymbol] = useState("");
   const [deposit, setDeposit] = useState("");
   const [withdraw, setWithdraw] = useState("");
@@ -28,37 +27,18 @@ const Token: FC = () => {
   const getSymbol = async () => {
     const contract = initContract();
     const result = await contract.symbol();
-    // console.log('getSymbol', result);
+    console.log('getSymbol', result);
     setSymbol(result);
   };
   const getBalance = async (): Promise<void> => {
     const contract = initContract();
     const result = await contract.balanceOf(walletAddress);
     // let result = await contract.balances(walletAddress);
-    // console.log('getBalance', ethers.utils.formatUnits(result));
+    console.log('getBalance', ethers.utils.formatUnits(result));
     setBalance(ethers.utils.formatUnits(result));
-  };
-  const getAllowance = async () => {
-    const contract = initContract();
-    const result = await contract.allowance(walletAddress, TOKEN_ADDRESS);
-    // console.log('getAllowance', ethers.utils.formatUnits(result));
-    setAllowance(ethers.utils.formatUnits(result));
   };
 
   // #3
-  const handleApprove = async () => {
-    try {
-      const approveValue = ethers.utils.parseEther(deposit);
-      const contract = initContract();
-      const result = await contract.approve(TOKEN_ADDRESS, approveValue);
-      // console.log('approve', result);
-      return result;
-    } catch (error) {
-      console.log('handleApprove error', error);
-    }
-  };
-
-  // #4
   const handleDeposit = async (): Promise<void> => {
     try {
       const tx = {
@@ -66,35 +46,19 @@ const Token: FC = () => {
       };
       const contract = initContract();
       const result = await contract.deposit({ ...tx });
-      // console.log('deposit', result);
+      console.log('deposit', result);
     } catch (error) {
       console.log('handleDeposit error', error);
     }
   };
 
-  // #5 approve b4 deposit
-  // show case hack?
-  const depositService = async () => {
-    if (parseFloat(deposit) > parseFloat(allowance)) {
-      // ask for approve
-      const approveResult = await handleApprove();
-      if (approveResult) {
-        await handleDeposit();
-      }
-    } else {
-      await handleDeposit();
-    }
-    // case hack
-    // handleDeposit();
-  };
-
-  // #6
+  // #4
   const handleWithdraw = async (): Promise<void> => {
     try {
       const amount = ethers.utils.parseEther(withdraw);
       const contract = initContract();
       const result = await contract.withdraw(amount);
-      // console.log('withdraw', result);
+      console.log('withdraw', result);
     } catch (error) {
       console.log('handleWithdraw error', error);
     }
@@ -104,7 +68,6 @@ const Token: FC = () => {
   const handleRefresh = async () => {
     await Promise.all([
       getBalance(),
-      getAllowance(),
       getWalletBalance(),
     ]);
   };
@@ -115,7 +78,6 @@ const Token: FC = () => {
       if (walletAddress) {
         await Promise.all([
           getBalance(),
-          getAllowance(),
           getSymbol(),
         ]);
       }
@@ -126,50 +88,50 @@ const Token: FC = () => {
   return (
     <div className="h-[90vh] p-4 text-center bg-slate-700">
 
-      {/* #2 */}
       <div className="w-10/12 md:w-9/12 mx-auto my-4 p-4 border border-white bg-gray-100 text-2xl">
-        <div>
+        <p className="text-2xl">info</p>
+        {/* #2 */}
+        <div className="break-all">
           address : {`${walletAddress || `...`}`}
         </div>
-        <div>
-          wallet balance : {`${walletBalance || 0} ETH`}
+        <div className="break-all">
+          wallet balance : {`${walletBalance || `...`} ETH`}
         </div>
-        <div>
-          allowance : {`${allowance || 0} ETH`}
-        </div>
-        <div>
-          token balance : {`${balance || 0} ${symbol}`}
+        <div className="break-all">
+          token balance : {`${balance || `...`} ${symbol}`}
         </div>
         <MyButton id="updateBalanceButton" name="updateBalanceButton" className="mt-4" text="REFRESH" onClick={handleRefresh} />
       </div>
 
-      {/* #5 */}
       <div className="w-10/12 md:w-9/12 mx-auto my-4 p-4 border border-white bg-gray-100">
+        <p className="text-2xl">{`Mint ${symbol} from ETH`}</p>
+        {/* #3 */}
         <div>
           <input
             name="deposit"
             className="w-6/12 p-2 outline-none border text-lg white-glassmorphism rounded-sm"
             type="number"
             value={deposit}
-            placeholder="input deposit"
+            placeholder="input mint amount"
             onChange={e => setDeposit(e.target.value)}
           />
-          <MyButton id="depositButton" name="depositButton" className="mx-2" text="DEPOSIT" onClick={depositService} />
+          <MyButton id="depositButton" name="depositButton" className="mx-2" text="MINT" onClick={handleDeposit} />
         </div>
       </div>
 
-      {/* #6 */}
       <div className="w-10/12 md:w-9/12 mx-auto my-4 p-4 border border-white bg-gray-100">
+        <p className="text-2xl">{`Convert ${symbol} back to ETH`}</p>
+        {/* #4 */}
         <div>
           <input
             name="withdraw"
             className="w-6/12 p-2 outline-none border text-lg white-glassmorphism rounded-sm"
             type="number"
             value={withdraw}
-            placeholder="input withdraw"
+            placeholder="input convert amount"
             onChange={e => setWithdraw(e.target.value)}
           />
-          <MyButton id="withdrawButton" name="withdrawButton" className="mx-2" text="WITHDRAW" onClick={handleWithdraw} />
+          <MyButton id="withdrawButton" name="withdrawButton" className="mx-2" text="CONVERT" onClick={handleWithdraw} />
         </div>
       </div>
 
