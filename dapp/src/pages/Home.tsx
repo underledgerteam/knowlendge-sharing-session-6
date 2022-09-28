@@ -65,6 +65,18 @@ const Home: FC = () => {
         </a>
       </div>
 
+      <div className="p-2">
+        <p>Learn more</p>
+        <a
+          className="underline break-all"
+          href={`https://ethereum.org/en/developers/learning-tools/`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {`https://ethereum.org/en/developers/learning-tools/`}
+        </a>
+      </div>
+
     </div>
   );
 };
