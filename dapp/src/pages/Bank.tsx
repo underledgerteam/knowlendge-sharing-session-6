@@ -13,11 +13,6 @@ const Bank: FC = () => {
   // const [balance, setBalance] = useState("");
   // const [deposit, setDeposit] = useState("");
 
-  // #5 handle change input value 
-  // const handleChangeDeposit = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setDeposit(e.target.value);
-  // };
-
   /* 
     #1 function for prepare Contract object for use later.
     If you are familiar with Databases, this is similar to an Object Relational Mapper(ORM).
@@ -63,6 +58,11 @@ const Bank: FC = () => {
   //   await refreshBalance();
   // };
 
+  // #5 handle change input value 
+  // const handleChangeDeposit = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setDeposit(e.target.value);
+  // };
+
   // #5 using deposit
   // After this function tx is created but not mean it mined.
   // have to wait tx mined then this tx will write to blockchain.
@@ -106,9 +106,9 @@ const Bank: FC = () => {
   return (
     <div className="h-[90vh] p-4 text-center bg-slate-700">
 
-      {/* #4 */}
       <div className="w-10/12 md:w-9/12 mx-auto my-4 p-4 border border-white bg-gray-100">
         <p className="text-2xl">info</p>
+        {/* #3 */}
         {/* <div className="text-2xl">
           address : {`${walletAddress || `...`}`}
         </div>
@@ -117,13 +117,14 @@ const Bank: FC = () => {
         </div>
         <div className="text-2xl">
           bank balance : {`${balance || 0} ETH`}
-        </div>
-        <MyButton id="updateBalanceButton" name="updateBalanceButton" className="mt-4" text="REFRESH" onClick={refreshBalance} /> */}
+        </div> */}
+        {/* #4 */}
+        {/* <MyButton id="updateBalanceButton" name="updateBalanceButton" className="mt-4" text="REFRESH" onClick={refreshBalance} /> */}
       </div>
 
-      {/* #5 */}
       <div className="w-10/12 md:w-9/12 mx-auto my-4 p-4 border border-white bg-gray-100">
         <p className="text-2xl">deposit</p>
+        {/* #5 */}
         {/* <input
           name="deposit"
           className="mt-4 p-2 outline-none border text-lg white-glassmorphism rounded-sm"
@@ -135,9 +136,9 @@ const Bank: FC = () => {
         <MyButton id="depositButton" name="depositButton" className="mx-2" text="DEPOSIT" onClick={handleDeposit} /> */}
       </div>
 
-      {/* #6 */}
       <div className="w-10/12 md:w-9/12 mx-auto my-4 p-4 border border-white bg-gray-100">
         <p className="text-2xl">withdraw all bank balance</p>
+        {/* #6 */}
         {/* <MyButton id="withdrawButton" name="withdrawButton" className="mt-4" text="WITHDRAW" onClick={handleWithdraw} /> */}
       </div>
 

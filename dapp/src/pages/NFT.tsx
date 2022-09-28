@@ -119,7 +119,6 @@ const NFT: FC = () => {
   //   console.log('tokenMetaDataArray', tokenMetaDataArray);
   //   setNftList(tokenMetaDataArray);
   // };
-  // end #2 nft section
 
   // #4 function mint nft
   // show hack
@@ -132,12 +131,12 @@ const NFT: FC = () => {
   //   const tx = {
   //     value: ethers.utils.parseEther(mintPrice)
   //   };
-  //   const contract = initContract();
-  //   const result = await contract.mint(mintQty, tx);
-  //   console.log('handleMint', result);
-  //   // case hack
   //   // const contract = initContract();
-  //   // const result = await contract.mint(mintQty);
+  //   // const result = await contract.mint(mintQty, tx);
+  //   // console.log('handleMint', result);
+  //   // case hack
+  //   const contract = initContract();
+  //   const result = await contract.mint(mintQty);
   // };
 
   // #3 
@@ -168,9 +167,9 @@ const NFT: FC = () => {
   return (
     <div className="h-full p-4 text-center bg-slate-700">
 
-      {/* #3 */}
       <div className="w-10/12 md:w-9/12 mx-auto my-4 p-4 border border-white bg-gray-100 text-2xl">
         <p className="text-2xl">info</p>
+        {/* #3 */}
         {/* <div>
           address : {`${walletAddress || `...`}`}
         </div>
@@ -186,11 +185,11 @@ const NFT: FC = () => {
         <MyButton id="refreshButton" name="refreshButton" className="mt-4" text="REFRESH" onClick={handleRefresh} /> */}
       </div>
 
-      {/* #4 */}
       <div className="w-10/12 md:w-9/12 mx-auto my-4 p-4 border border-white bg-gray-100 text-2xl">
         <div>
           Mint NFT
         </div>
+        {/* #4 */}
         {/* <div>
           Max mint {`${maxMintQty}`}
         </div>
@@ -205,11 +204,11 @@ const NFT: FC = () => {
         <MyButton id="mintButton" name="mintButton" className="mx-2" text="MINT" onClick={handleMint} /> */}
       </div>
 
-      {/* #3 */}
       <div className="w-10/12 md:w-9/12 mx-auto my-4 p-4 border border-white bg-gray-100 text-2xl">
         <div>
           NFT image
         </div>
+        {/* #3 */}
         {/* <div className="mt-4 grid grid-cols-4 gap-4 justify-items-center content-around">
           {nftList.map((nft) => (
             <NftImage

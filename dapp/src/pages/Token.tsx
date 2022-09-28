@@ -73,7 +73,6 @@ const Token: FC = () => {
   // };
 
   // #5 approve b4 deposit
-  // show case hack?
   // const depositService = async () => {
   //   if (parseFloat(deposit) > parseFloat(allowance)) {
   //     // ask for approve
@@ -126,9 +125,9 @@ const Token: FC = () => {
   return (
     <div className="h-[90vh] p-4 text-center bg-slate-700">
 
-      {/* #2 */}
       <div className="w-10/12 md:w-9/12 mx-auto my-4 p-4 border border-white bg-gray-100 text-2xl">
         <p className="text-2xl">info</p>
+        {/* #2 */}
         {/* <div>
           address : {`${walletAddress || `...`}`}
         </div>
@@ -144,9 +143,9 @@ const Token: FC = () => {
         <MyButton id="updateBalanceButton" name="updateBalanceButton" className="mt-4" text="REFRESH" onClick={handleRefresh} /> */}
       </div>
 
-      {/* #5 */}
       <div className="w-10/12 md:w-9/12 mx-auto my-4 p-4 border border-white bg-gray-100">
         <p className="text-2xl">deposit</p>
+        {/* #5 */}
         {/* <div>
           <input
             name="deposit"
@@ -160,9 +159,9 @@ const Token: FC = () => {
         </div> */}
       </div>
 
-      {/* #6 */}
       <div className="w-10/12 md:w-9/12 mx-auto my-4 p-4 border border-white bg-gray-100">
         <p className="text-2xl">withdraw</p>
+        {/* #6 */}
         {/* <div>
           <input
             name="withdraw"
