@@ -4,23 +4,24 @@ pragma solidity ^0.8.0;
 
 contract SimpleBank {
 
-    mapping (address => uint256) public balances;
+    mapping (address => uint256) public  balances;
 
-    function deposit() public payable {    
+    function deposit() public payable {
         balances[msg.sender] += msg.value;
     }
 
-    function withdraw() public returns (uint256 remainingBal){
+    function withdraw() public returns (uint256 remainingBal) {
 
-        uint256 bal  = balances[msg.sender];
+        uint256 bal =  balances[msg.sender];
 
-        (bool sent,) = msg.sender.call{value: bal}("");
-        require(sent, "Failed to send Ether");
+
+        (bool send,) = msg.sender.call{value: bal}("");
+
+        require(send, "Failed to send Ether");
+
+        balances[msg.sender] = 0;
+
         return balances[msg.sender];
     }
 
-    function balance() public view returns (uint256) {
-        return balances[msg.sender];
-    }
-    
 }
